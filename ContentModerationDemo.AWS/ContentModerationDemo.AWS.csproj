@@ -8,4 +8,8 @@
     <PackageReference Include="AWSSDK.Rekognition" Version="3.3.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ContentModerationDemo.Abstraction\ContentModerationDemo.Abstraction.csproj" />
+  </ItemGroup>
+
 </Project>
