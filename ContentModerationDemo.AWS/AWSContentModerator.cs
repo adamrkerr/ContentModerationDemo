@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ContentModerationDemo.AWS
 {
-    public class AWSContentModerator
+    public class AWSContentModerator : IContentModerator
     {
         public async Task<ModerationResponse> AnalyzeImage(byte[] imageBytes)
         {
