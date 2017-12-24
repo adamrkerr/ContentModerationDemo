@@ -10,7 +10,7 @@ namespace ContentModerationDemo.AWS
 {
     public class AWSContentModerator : IContentModerator
     {
-        public async Task<ModerationResponse> AnalyzeImage(byte[] imageBytes)
+        public async Task<ModerationResponse> AnalyzeImage(byte[] imageBytes, string imageName)
         {
             var endpoint = Amazon.RegionEndpoint.USWest2;
             using (var client  = new AmazonRekognitionClient(endpoint))

@@ -2,6 +2,7 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,14 +13,32 @@ namespace ContentModerationDemo.Azure
 {
     public class AzureContentModerator : IContentModerator
     {
-        public string ApiKey { get; set; }
-        public async Task<ModerationResponse> AnalyzeImage(byte[] imageBytes)
-        {
-            var client = new RestClient("https://eastus2.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0");
-            client.AddDefaultHeader("Ocp-Apim-Subscription-Key", ApiKey);
+        private const string API_URL_FORMAT = "https://{0}.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0";
+        private const string API_ENDPOINT = "ProcessImage/Evaluate";
+        private const string API_KEY_HEADER = "Ocp-Apim-Subscription-Key";
 
-            var request = new RestRequest("ProcessImage/Evaluate", Method.POST);
-            request.AddParameter("image/jpeg", imageBytes, ParameterType.RequestBody);
+        private const string MIME_JPEG = "image/jpeg";
+        private const string MIME_GIF = "image/gif";
+        private const string MIME_PNG = "image/png";
+        private const string MIME_BMP = "image/bmp";
+
+        public AzureContentModerator(string azureRegion, string apiKey)
+        {
+            ApiKey = apiKey;
+            AzureRegion = azureRegion;
+        }
+
+        public string AzureRegion { get; set; }
+
+        public string ApiKey { get; private set; }
+
+        public async Task<ModerationResponse> AnalyzeImage(byte[] imageBytes, string imageName)
+        {
+            var client = new RestClient(String.Format(API_URL_FORMAT, AzureRegion));
+            client.AddDefaultHeader(API_KEY_HEADER, ApiKey);
+
+            var request = new RestRequest(API_ENDPOINT, Method.POST);
+            request.AddParameter(DetermineMimeType(imageName), imageBytes, ParameterType.RequestBody);
 
             var apiResponse = await client.ExecuteTaskAsync<AzureModerationResponse>(request);
 
@@ -57,6 +76,24 @@ namespace ContentModerationDemo.Azure
             }
 
             return response;
+        }
+
+        internal static string DetermineMimeType(string imageName)
+        {
+            switch (Path.GetExtension(imageName))
+            {
+                case "jpg":
+                case "jpeg":
+                    return MIME_JPEG;
+                case "png":
+                    return MIME_PNG;
+                case "bmp":
+                    return MIME_BMP;
+                case "gif":
+                    return MIME_GIF;
+                default:
+                    return "unknown";
+            }
         }
     }
 }

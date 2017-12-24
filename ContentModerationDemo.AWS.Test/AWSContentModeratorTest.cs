@@ -28,7 +28,7 @@ namespace ContentModerationDemo.AWS.Test
                 byteArray = byteList.ToArray();
             }
 
-            var result = await moderator.AnalyzeImage(byteArray);
+            var result = await moderator.AnalyzeImage(byteArray, Path.GetFileName(imagePath));
 
             Assert.False(result.Pass);
             Assert.NotEmpty(result.ModerationScores);

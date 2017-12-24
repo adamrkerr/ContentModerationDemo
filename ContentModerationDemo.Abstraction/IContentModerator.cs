@@ -7,6 +7,6 @@ namespace ContentModerationDemo.Abstraction
 {
     public interface IContentModerator
     {
-        Task<ModerationResponse> AnalyzeImage(byte[] imageBytes);
+        Task<ModerationResponse> AnalyzeImage(byte[] imageBytes, string imageName);
     }
 }

@@ -12,7 +12,6 @@ namespace ContentModerationDemo.Azure.Test
         [Fact]
         public async Task TestImageStream()
         {
-            var moderator = new AzureContentModerator();
 
             //Set a path to an image that will get results
             var imagePath = @"C:\Users\Adam\Pictures\content moderation\zlonp3btp0d37l4ls3dy.jpg";
@@ -34,9 +33,9 @@ namespace ContentModerationDemo.Azure.Test
 
             var config = builder.Build();            
 
-            moderator.ApiKey = config.GetSection("Key").Value;
+            var moderator = new AzureContentModerator(config.GetSection("AzureRegion").Value, config.GetSection("Key").Value);
 
-            var result = await moderator.AnalyzeImage(byteArray);
+            var result = await moderator.AnalyzeImage(byteArray, Path.GetFileName(imagePath));
 
             Assert.False(result.Pass);
             Assert.NotEmpty(result.ModerationScores);
