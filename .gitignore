@@ -262,3 +262,5 @@ __pycache__/
 /ContentModerationDemo/aws-beanstalk-tools-defaults.json
 /ContentModerationDemo.Azure.Test/appsettings.keys.json
 /ContentModerationDemo/appsettings.keys.json
+/ContentModerationDemo/google-service-account.json
+/ContentModerationDemo.Google.Test/google-service-account.json

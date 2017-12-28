@@ -15,10 +15,12 @@ namespace ContentModerationDemo.Controllers
     {
         private readonly IAWSContentModerator _awsModerator;
         private readonly IAzureContentModerator _azureModerator;
-        public ModerationController(IAWSContentModerator awsModerator, IAzureContentModerator azureModerator)
+        private readonly IGoogleContentModerator _googleModerator;
+        public ModerationController(IAWSContentModerator awsModerator, IAzureContentModerator azureModerator, IGoogleContentModerator googleModerator)
         {
             _awsModerator = awsModerator;
             _azureModerator = azureModerator;
+            _googleModerator = googleModerator;
         }
 
         [HttpPost("[action]")]
@@ -67,6 +69,36 @@ namespace ContentModerationDemo.Controllers
                             await formFile.CopyToAsync(stream);
 
                             var moderationResult = await _awsModerator.AnalyzeImage(stream);
+
+                            return new OkObjectResult(moderationResult);
+                        }
+                    }
+                }
+
+                return new NotFoundResult();
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(500);
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Google()
+        {
+            try
+            {
+                foreach (var formFile in Request.Form.Files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        var buffer = new byte[formFile.Length];
+
+                        using (var stream = new MemoryStream(buffer))
+                        {
+                            await formFile.CopyToAsync(stream);
+
+                            var moderationResult = await _googleModerator.AnalyzeImage(buffer);
 
                             return new OkObjectResult(moderationResult);
                         }

@@ -9,6 +9,7 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { AzureComponent } from './components/azure/azure.component';
 import { AwsComponent } from './components/aws/aws.component';
+import { GoogleComponent } from './components/google/google.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { AwsComponent } from './components/aws/aws.component';
         NavMenuComponent,
         HomeComponent,
         AzureComponent,
-        AwsComponent
+        AwsComponent,
+        GoogleComponent
     ],
     imports: [
         CommonModule,
@@ -27,6 +29,7 @@ import { AwsComponent } from './components/aws/aws.component';
             { path: 'home', component: HomeComponent },
             { path: 'aws', component: AwsComponent },
             { path: 'azure', component: AzureComponent },
+            { path: 'google', component: GoogleComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ]

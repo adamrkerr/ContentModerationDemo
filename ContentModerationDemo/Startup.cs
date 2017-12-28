@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ContentModerationDemo.Abstraction;
 using ContentModerationDemo.AWS;
 using ContentModerationDemo.Azure;
+using ContentModerationDemo.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -42,6 +43,10 @@ namespace ContentModerationDemo
             services.AddScoped<IAWSContentModerator>((provider) => {
                 return new AWSContentModerator(Configuration.GetSection("AWS:Region").Value);
             });
+            services.AddScoped<IGoogleContentModerator>((provider) => {
+                return new GoogleContentModerator("google-service-account.json");
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

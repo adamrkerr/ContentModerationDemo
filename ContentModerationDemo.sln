@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentModerationDemo.Azure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentModerationDemo.Azure.Test", "ContentModerationDemo.Azure.Test\ContentModerationDemo.Azure.Test.csproj", "{B0A6FB14-7E44-40CC-96E8-5DCBE1EE3F29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentModerationDemo.Google", "ContentModerationDemo.Google\ContentModerationDemo.Google.csproj", "{C16F023E-0C47-4180-8799-C7003160C1F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentModerationDemo.Google.Test", "ContentModerationDemo.Google.Test\ContentModerationDemo.Google.Test.csproj", "{4CE87356-1090-457A-9B87-AB78564C2E86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{B0A6FB14-7E44-40CC-96E8-5DCBE1EE3F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0A6FB14-7E44-40CC-96E8-5DCBE1EE3F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0A6FB14-7E44-40CC-96E8-5DCBE1EE3F29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16F023E-0C47-4180-8799-C7003160C1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16F023E-0C47-4180-8799-C7003160C1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16F023E-0C47-4180-8799-C7003160C1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16F023E-0C47-4180-8799-C7003160C1F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE87356-1090-457A-9B87-AB78564C2E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE87356-1090-457A-9B87-AB78564C2E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE87356-1090-457A-9B87-AB78564C2E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE87356-1090-457A-9B87-AB78564C2E86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
