@@ -11,7 +11,7 @@ using System.Web;
 
 namespace ContentModerationDemo.Azure
 {
-    public class AzureContentModerator : IContentModerator
+    public class AzureContentModerator : IAzureContentModerator
     {
         private const string API_URL_FORMAT = "https://{0}.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0";
         private const string API_ENDPOINT = "ProcessImage/Evaluate";
@@ -51,28 +51,15 @@ namespace ContentModerationDemo.Azure
             }
             else
             {
-                if (apiResponse.Data.IsImageAdultClassified || apiResponse.Data.IsImageRacyClassified)
-                {
-                    response.Pass = false;
+                response.Pass = !(apiResponse.Data.IsImageAdultClassified || apiResponse.Data.IsImageRacyClassified);
 
-                    var list = new List<ModerationScore>();
+                var list = new List<ModerationScore>();
 
-                    if (apiResponse.Data.IsImageAdultClassified)
-                    {
-                        list.Add(new ModerationScore { Category = "Adult", Score = apiResponse.Data.AdultClassificationScore });
-                    }
+                list.Add(new ModerationScore { Category = "Adult", Score = apiResponse.Data.AdultClassificationScore });
 
-                    if (apiResponse.Data.IsImageRacyClassified)
-                    {
-                        list.Add(new ModerationScore { Category = "Racy", Score = apiResponse.Data.RacyClassificationScore});
-                    }
+                list.Add(new ModerationScore { Category = "Racy", Score = apiResponse.Data.RacyClassificationScore });
 
-                    response.ModerationScores = list;
-                }
-                else
-                {
-                    response.Pass = true;
-                }
+                response.ModerationScores = list;
             }
 
             return response;
@@ -82,14 +69,14 @@ namespace ContentModerationDemo.Azure
         {
             switch (Path.GetExtension(imageName))
             {
-                case "jpg":
-                case "jpeg":
+                case ".jpg":
+                case ".jpeg":
                     return MIME_JPEG;
-                case "png":
+                case ".png":
                     return MIME_PNG;
-                case "bmp":
+                case ".bmp":
                     return MIME_BMP;
-                case "gif":
+                case ".gif":
                     return MIME_GIF;
                 default:
                     return "unknown";

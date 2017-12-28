@@ -54,7 +54,9 @@
   <ItemGroup>
     <None Remove="ClientApp\app\components\aws\aws.component.ts" />
     <None Remove="ClientApp\app\components\azure\azure.component.ts" />
+    <None Remove="ClientApp\app\components\moderation.component.ts" />
     <None Remove="ClientApp\app\models\moderation-response.ts" />
+    <None Remove="ClientApp\app\models\moderation-score.ts" />
   </ItemGroup>
 
 
@@ -64,9 +66,24 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\ContentModerationDemo.AWS\ContentModerationDemo.AWS.csproj" />
+    <ProjectReference Include="..\ContentModerationDemo.Azure\ContentModerationDemo.Azure.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\aws\aws.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\azure\azure.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\shared\moderation.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\moderation-response.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\moderation-score.ts" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="appsettings.keys.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
 

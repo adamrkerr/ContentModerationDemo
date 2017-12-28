@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /ContentModerationDemo/aws-beanstalk-tools-defaults.json
 /ContentModerationDemo.Azure.Test/appsettings.keys.json
+/ContentModerationDemo/appsettings.keys.json

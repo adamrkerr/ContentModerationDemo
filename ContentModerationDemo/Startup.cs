@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ContentModerationDemo.Abstraction;
+using ContentModerationDemo.AWS;
+using ContentModerationDemo.Azure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -12,9 +15,18 @@ namespace ContentModerationDemo
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.keys.json", optional: true) //Not included in repo, create your own
+                .AddEnvironmentVariables();
+
+            var config = builder.Build();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +35,13 @@ namespace ContentModerationDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddScoped<IAzureContentModerator>((provider) => {
+                return new AzureContentModerator(Configuration.GetSection("Azure:Region").Value, Configuration.GetSection("Azure:Key").Value); }
+            );
+            services.AddScoped<IAWSContentModerator>((provider) => {
+                return new AWSContentModerator(Configuration.GetSection("AWS:Region").Value);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

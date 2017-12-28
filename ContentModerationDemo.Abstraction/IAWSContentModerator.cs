@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ContentModerationDemo.Abstraction
 {
-    public interface IContentModerator
+    public interface IAWSContentModerator
     {
-        Task<ModerationResponse> AnalyzeImage(byte[] imageBytes, string imageName);
+        Task<ModerationResponse> AnalyzeImage(MemoryStream imageStream);
     }
 }

@@ -11,7 +11,7 @@ namespace ContentModerationDemo.AWS.Test
         [Fact]
         public async Task TestImageStream()
         {
-            var moderator = new AWSContentModerator();
+            var moderator = new AWSContentModerator("us-east-1");
 
             //Set a path to an image that will get results
             var imagePath = @"C:\Users\Adam\Pictures\content moderation\zlonp3btp0d37l4ls3dy.jpg";
@@ -26,12 +26,14 @@ namespace ContentModerationDemo.AWS.Test
                 }
 
                 byteArray = byteList.ToArray();
+
+                var memoryStream = new MemoryStream(byteArray);
+
+                var result = await moderator.AnalyzeImage(memoryStream);
+
+                Assert.False(result.Pass);
+                Assert.NotEmpty(result.ModerationScores);
             }
-
-            var result = await moderator.AnalyzeImage(byteArray, Path.GetFileName(imagePath));
-
-            Assert.False(result.Pass);
-            Assert.NotEmpty(result.ModerationScores);
         }
     }
 }

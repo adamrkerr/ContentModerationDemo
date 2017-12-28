@@ -1,0 +1,14 @@
+﻿<h1>{{title}}</h1>
+
+<p>{{description}}</p>
+
+<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".jpeg,.jpg,.png,.gif,.bmp">
+
+<ul *ngIf="response">
+    <li>Pass: <strong>{{response.pass}}</strong></li>
+    <li *ngFor="let score of response.moderationScores">
+        {{score.category}}: <strong>{{score.score}}</strong>
+    </li>
+</ul>
+
+

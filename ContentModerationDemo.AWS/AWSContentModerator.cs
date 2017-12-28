@@ -1,4 +1,5 @@
-﻿using Amazon.Rekognition;
+﻿using Amazon;
+using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
 using ContentModerationDemo.Abstraction;
 using System;
@@ -8,19 +9,26 @@ using System.Threading.Tasks;
 
 namespace ContentModerationDemo.AWS
 {
-    public class AWSContentModerator : IContentModerator
+    public class AWSContentModerator : IAWSContentModerator
     {
-        public async Task<ModerationResponse> AnalyzeImage(byte[] imageBytes, string imageName)
+        private RegionEndpoint Endpoint { get; set; }
+
+        public AWSContentModerator(string endpointName)
         {
-            var endpoint = Amazon.RegionEndpoint.USWest2;
-            using (var client  = new AmazonRekognitionClient(endpoint))
+            Endpoint = RegionEndpoint.GetBySystemName(endpointName);
+        }
+
+        public async Task<ModerationResponse> AnalyzeImage(MemoryStream imageStream)
+        {            
+            using (var client  = new AmazonRekognitionClient(Endpoint))
             {
                 var request = new DetectModerationLabelsRequest()
                 {
                     Image = new Image()
                     {
-                        Bytes = new MemoryStream(imageBytes)
-                    }
+                        Bytes = imageStream
+                    },
+                    MinConfidence = 0 //do this so that scores are always returned?
                 };
 
                 var awsResponse = await client.DetectModerationLabelsAsync(request);
@@ -34,21 +42,21 @@ namespace ContentModerationDemo.AWS
                 }
                 else
                 {
-                    if (awsResponse.ModerationLabels.Any())
+                    if (awsResponse.ModerationLabels.Any( s => s.Confidence >= 50))
                     {
-                        response.Pass = false;
-
-                        response.ModerationScores = awsResponse.ModerationLabels
-                            .Select(m => new ModerationScore()
-                            {
-                                Category = $"{m.ParentName}:{m.Name}",
-                                Score = m.Confidence
-                            });
+                        response.Pass = false;                        
                     }
                     else
                     {
                         response.Pass = true;
                     }
+
+                    response.ModerationScores = awsResponse.ModerationLabels
+                            .Select(m => new ModerationScore()
+                            {
+                                Category = $"{m.ParentName}:{m.Name}",
+                                Score = m.Confidence
+                            });
                 }
 
                 return response;
