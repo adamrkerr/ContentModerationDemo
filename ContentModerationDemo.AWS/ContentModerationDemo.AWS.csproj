@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Rekognition" Version="3.3.8" />
+    <PackageReference Include="AWSSDK.Rekognition" Version="3.3.8.13" />
   </ItemGroup>
 
   <ItemGroup>

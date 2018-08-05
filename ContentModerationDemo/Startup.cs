@@ -55,6 +55,8 @@ namespace ContentModerationDemo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
+                //if you get a loading error here, run "npm install" in the project directory
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
